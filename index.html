@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>島嶼小鎮多人測驗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<!-- p5.js：介面、鍵盤、滑鼠 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<!-- three.js：3D 小鎮（用 import map 告訴瀏覽器 three 的位置） -->
+<script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+
+
+<div id="hud"></div>
+<div class="ui" id="top"><h1>島嶼小鎮測驗</h1><small id="stat">答題 0 / 6　第一次就答對 0 題</small><br><small id="timer" style="color:#e8743b;font-weight:700"></small><div id="dots"></div></div>
+<button class="ui" id="helpBtn">💡 HELP 提示角色</button>
+<div class="ui" id="near"></div>
+<div class="ui" id="board"><header id="boardHead">🏆 排行榜 <span id="online">連線中…</span></header>
+  <div id="boardList">還沒有人加入</div>
+  <div id="boardFoot">房間：<b id="roomName">—</b>・依「六題全對」的先後排名<br><button id="resetBtn" style="display:none">🔄 開新一局（清空排行榜）</button></div></div>
+<div class="ui" id="toast"></div>
+<div class="ui" id="chat"><header id="chatHead">💬 聊天室 <span id="chatHint">Enter 開始打字</span></header>
+  <div id="chatLog"></div>
+  <form id="chatForm" autocomplete="off"><input id="chatIn" maxlength="80" placeholder="說點什麼…（Enter 送出）"><button id="chatSend" type="submit">送出</button><button id="waveBtn" type="button" title="揮手（G 鍵）" style="border:0;border-radius:10px;background:#f2c230;padding:0 10px;cursor:pointer;font-size:16px">👋</button></form></div>
+<div class="ui" id="tipline">走進橘色圓圈就會出題　靠近頭上有「?」的人可以拿提示　H：提示角色　拖曳旋轉　滾輪縮放　Q E 轉場景</div>
+<div class="mask ui" id="mQuiz"><div class="card" id="quizCard"></div></div>
+<div class="mask ui" id="mHelp"><div class="card" id="helpCard"></div></div>
+<div class="mask ui on" id="mIntro"><div class="card">
+  <span class="tag">多人連線｜AI 指令改作品複習</span>
+  <h2>輸入暱稱、選一個角色，加入島嶼小鎮！</h2>
+  <input id="nick" maxlength="12" placeholder="你的暱稱（例如：座號 + 名字）">
+  <div class="looks" id="looks"></div>
+  <div style="font-size:14px;line-height:1.8;margin-top:8px">
+  🟠 走進<b>橘色圓圈</b>答題（綠＝答對、紅＝去找提示再回來）<br>
+  💡 頭上有<b>黃色「?」</b>的是<b>提示角色</b>，靠近就會說重點；右上 <b>HELP</b> 可以請他們帶路<br>
+  🏆 <b>最先六題全部答對</b>的人排第一名，其他同學會即時出現在島上</div>
+  <div class="keys">方向鍵 / WASD 移動　點地面走過去　左鍵拖曳旋轉　滾輪或 + − 縮放　Q / E 轉場景　選項可按 1～4</div>
+  <div id="mpNote">正在連線到伺服器…</div>
+  <button class="btn" id="startBtn">加入遊戲</button></div></div>
+<div class="mask ui" id="mEnd"><div class="card" id="endCard"></div></div>
+
+<!-- ===== 程式載入順序（順序不能換：後面的檔案會用到前面的東西） ===== -->
+<script type="module">import * as THREE from 'three'; window.THREE = THREE;</script>
+<script defer src="config.js"></script>          <!-- 1. 連線設定：學生要改這裡 -->
+<script defer src="js/world.js"></script>        <!-- 2. 3D 場景 -->
+<script defer src="js/characters.js"></script>   <!-- 3. 公仔角色 -->
+<script defer src="js/quiz.js"></script>         <!-- 4. 題目與提示角色（讀 data/question.csv） -->
+<script defer src="js/ui.js"></script>           <!-- 5. 答題與提示視窗 -->
+<script defer src="js/multiplayer.js"></script>  <!-- 6. 多人連線 -->
+<script defer src="sketch.js"></script>          <!-- 7. p5.js 主程式 -->
+</body>
+</html>
